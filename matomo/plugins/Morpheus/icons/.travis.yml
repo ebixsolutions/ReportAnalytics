@@ -1,0 +1,17 @@
+os: linux
+dist: bionic
+language: python
+python:
+  "3.8"
+
+before_install:
+  - git clone https://github.com/piwik/piwik-package.git tmp/piwik-package
+  - composer install
+  - yarn install
+
+script:
+ - 'shellcheck *.sh'
+ - python tests.py
+
+jobs:
+  fast_finish: true
