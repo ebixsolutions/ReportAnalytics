@@ -6,7 +6,7 @@
 # Node artifact files
 node_modules/
 dist/
-matomo/tmp/*
+tmp/*
 
 # Compiled Java class files
 *.class
