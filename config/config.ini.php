@@ -11,6 +11,9 @@ charset = "utf8mb4"
 [log]
 log_writers[] = "file"
 
+[RedisCache]
+password = 0
+
 [General]
 salt = "30a7d89d045265b2247e80a692a64721"
 trusted_hosts[] = "localhost"
@@ -80,6 +83,7 @@ Plugins[] = "CustomJsTracker"
 Plugins[] = "Tour"
 Plugins[] = "PagePerformance"
 Plugins[] = "CustomDimensions"
+Plugins[] = "CustomVariables"
 Plugins[] = "MyPlugin"
 
 [PluginsInstalled]
@@ -148,21 +152,5 @@ PluginsInstalled[] = "PagePerformance"
 PluginsInstalled[] = "CustomDimensions"
 PluginsInstalled[] = "customvariables"
 PluginsInstalled[] = "MyPlugin"
+PluginsInstalled[] = "CustomVariables"
 
-
-[Cache]
-backend = chained
-
-[ChainedCache]
-backends[] = array
-backends[] = file
-
-[RedisCache]
-host = "127.0.0.1" 
-port = 6379
-timeout = 0.0
-password = 0
-database = 14
-
-[Development]
-enabled = 0
