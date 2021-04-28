@@ -122,7 +122,7 @@ class API extends \Piwik\Plugin\API
     }
 
     // Get Last Visit Details
-    public function getLastVisitsDetails($idSite, $period = false, $date = false, $segment = false, $countVisitorsToFetch = false, $minTimestamp = false, $flat = false, $doNotFetchActions = false, $enhanced = false, $is_group = false, $type='last_one_year', $filter_offset=1, $filter_limit=10,$is_download=false){
+    public function getLastVisitsDetails($idSite, $period = false, $date = false, $segment = false, $countVisitorsToFetch = false, $minTimestamp = false, $flat = false, $doNotFetchActions = false, $enhanced = false, $is_group = 0, $type='last_one_year', $filter_offset=1, $filter_limit=10,$is_download=false){
 
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -199,7 +199,6 @@ class API extends \Piwik\Plugin\API
             $cacheKey = 'tracking_list_'.$is_group."_".$type."_".(int) $idSite;
             $visitors = $cache->fetch($cacheKey);
             if (is_array($visitors)) {
-
                 $dataRows  = $visitors;      
             }
             else {
@@ -227,8 +226,9 @@ class API extends \Piwik\Plugin\API
                     $sql = sprintf($sql, $table, $idSite, $default_from." 00:00:00", $default_to." 23:59:59");
                 }
                 $dataRows = $db->fetchAll($sql, $bind);
-                if($is_download==0){
-                    $cache->save($cacheKey, $result, 3600);
+                if($is_download==0 || $is_download==false){
+                    $cache->delete($cacheKey);
+                    $cache->save($cacheKey, $dataRows, 3600);
                 }
             }
             $dataTable = $this->makeVisitorTableFromArray($dataRows);
@@ -237,7 +237,7 @@ class API extends \Piwik\Plugin\API
         }
     }
 
-    public function refreshCacheResult($idSite, $period = false, $date = false, $segment = false, $countVisitorsToFetch = false, $minTimestamp = false, $flat = false, $doNotFetchActions = false, $enhanced = false, $is_group = false, $is_download=false){
+    public function refreshCacheResult($idSite, $period = false, $date = false, $segment = false, $countVisitorsToFetch = false, $minTimestamp = false, $flat = false, $doNotFetchActions = false, $enhanced = false, $is_group = 0, $is_download=false){
 
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -260,7 +260,7 @@ class API extends \Piwik\Plugin\API
             AND matomo_log_visit.visit_last_action_time <= '%s' GROUP BY user_id,location_ip ORDER BY matomo_log_visit.visit_last_action_time DESC"; 
         }
         $bind = array();
-        $sql = sprintf($sql, $table, $idSite, $default_from, $default_to);
+        $sql = sprintf($sql, $table, $idSite, $default_from." 00:00:00", $default_to." 23:59:59");
         $dataRows = $db->fetchAll($sql, $bind);
 
         $expiry_time = 3600;
@@ -269,6 +269,8 @@ class API extends \Piwik\Plugin\API
         foreach ($type as $key => $value) {
             $cacheKey = 'tracking_list_'.$is_group."_".$value."_".(int) $idSite;
             if($value=='last_one_year'){
+
+                $cache->delete($cacheKey);
                 $cache->save($cacheKey, $dataRows, $expiry_time);
             }
             else if($value=='last_six_month'){
@@ -276,25 +278,29 @@ class API extends \Piwik\Plugin\API
                 $last_six_month=[];
                 $default_from = date('Y-m-d', strtotime('-6 months'));
                 $default_to = date('Y-m-d');
-                foreach ($dataRows as $key => $value) {
-                    if(date('Y-m-d', strtotime($value['visit_last_action_time'])) >= $default_from && date('Y-m-d', strtolower($value['visit_last_action_time'])) <= $default_to){
-                        array_push($last_six_month, $value);
+                foreach ($dataRows as $key => $new_value) {
+                    if(date('Y-m-d', strtotime($new_value['visit_last_action_time'])) >= $default_from && date('Y-m-d', strtotime($new_value['visit_last_action_time'])) <= $default_to){
+                        array_push($last_six_month, $new_value);
                     }
                 }
+
+                $cache->delete($cacheKey);
                 $cache->save($cacheKey, $last_six_month, $expiry_time);
             }
             else if($value=='last_three_month'){
                 $last_three_month=[];
                 $default_from = date('Y-m-d', strtotime('-3 months'));
                 $default_to = date('Y-m-d');
-                foreach ($dataRows as $key => $value) {
-                    if(date('Y-m-d', strtotime($value['visit_last_action_time'])) >= $default_from && date('Y-m-d', strtotime($value['visit_last_action_time'])) <= $default_to){
-                        array_push($last_three_month, $value);
+                foreach ($dataRows as $key => $new_value) {
+                    if(date('Y-m-d', strtotime($new_value['visit_last_action_time'])) >= $default_from && date('Y-m-d', strtotime($new_value['visit_last_action_time'])) <= $default_to){
+                        array_push($last_three_month, $new_value);
                     }
                 }
+                $cache->delete($cacheKey);
                 $cache->save($cacheKey, $last_three_month, $expiry_time);
             }
         }
+
         return true;
     }
 
@@ -378,3 +384,4 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 }
+
