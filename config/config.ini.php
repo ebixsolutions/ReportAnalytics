@@ -77,4 +77,27 @@ PluginsInstalled[] = "CustomJsTracker"
 PluginsInstalled[] = "Tour"
 PluginsInstalled[] = "PagePerformance"
 PluginsInstalled[] = "CustomDimensions"
+PluginsInstalled[] = "CustomVariables"
+PluginsInstalled[] = "MyPlugin
 
+
+
+[Cache]
+backend = redis
+
+[ChainedCache]
+backends[] = array
+backends[] = redis
+
+[RedisCache]
+host = "127.0.0.1" 
+port = 6379
+timeout = 0.0
+password = 
+database = 14
+
+[Development]
+enabled = 0
+
+[log]
+log_writers[] = file
