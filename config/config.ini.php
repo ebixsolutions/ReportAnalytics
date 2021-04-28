@@ -8,10 +8,79 @@ dbname = "tracking_tool_analytics"
 tables_prefix = "matomo_"
 charset = "utf8mb4"
 
+[log]
+log_writers[] = "file"
+
 [General]
 salt = "30a7d89d045265b2247e80a692a64721"
 trusted_hosts[] = "localhost"
 trusted_hosts[] = "example.com"
+
+[Plugins]
+Plugins[] = "CorePluginsAdmin"
+Plugins[] = "CoreAdminHome"
+Plugins[] = "CoreHome"
+Plugins[] = "WebsiteMeasurable"
+Plugins[] = "IntranetMeasurable"
+Plugins[] = "Diagnostics"
+Plugins[] = "CoreVisualizations"
+Plugins[] = "Proxy"
+Plugins[] = "API"
+Plugins[] = "Widgetize"
+Plugins[] = "Transitions"
+Plugins[] = "LanguagesManager"
+Plugins[] = "Actions"
+Plugins[] = "Dashboard"
+Plugins[] = "MultiSites"
+Plugins[] = "Referrers"
+Plugins[] = "UserLanguage"
+Plugins[] = "DevicesDetection"
+Plugins[] = "Goals"
+Plugins[] = "Ecommerce"
+Plugins[] = "SEO"
+Plugins[] = "Events"
+Plugins[] = "UserCountry"
+Plugins[] = "GeoIp2"
+Plugins[] = "VisitsSummary"
+Plugins[] = "VisitFrequency"
+Plugins[] = "VisitTime"
+Plugins[] = "VisitorInterest"
+Plugins[] = "RssWidget"
+Plugins[] = "Feedback"
+Plugins[] = "Monolog"
+Plugins[] = "Login"
+Plugins[] = "TwoFactorAuth"
+Plugins[] = "UsersManager"
+Plugins[] = "SitesManager"
+Plugins[] = "Installation"
+Plugins[] = "CoreUpdater"
+Plugins[] = "CoreConsole"
+Plugins[] = "ScheduledReports"
+Plugins[] = "UserCountryMap"
+Plugins[] = "Live"
+Plugins[] = "PrivacyManager"
+Plugins[] = "ImageGraph"
+Plugins[] = "Annotations"
+Plugins[] = "MobileMessaging"
+Plugins[] = "Overlay"
+Plugins[] = "SegmentEditor"
+Plugins[] = "Insights"
+Plugins[] = "Morpheus"
+Plugins[] = "Contents"
+Plugins[] = "TestRunner"
+Plugins[] = "BulkTracking"
+Plugins[] = "Resolution"
+Plugins[] = "DevicePlugins"
+Plugins[] = "Heartbeat"
+Plugins[] = "Intl"
+Plugins[] = "Marketplace"
+Plugins[] = "ProfessionalServices"
+Plugins[] = "UserId"
+Plugins[] = "CustomJsTracker"
+Plugins[] = "Tour"
+Plugins[] = "PagePerformance"
+Plugins[] = "CustomDimensions"
+Plugins[] = "MyPlugin"
 
 [PluginsInstalled]
 PluginsInstalled[] = "Diagnostics"
@@ -77,27 +146,23 @@ PluginsInstalled[] = "CustomJsTracker"
 PluginsInstalled[] = "Tour"
 PluginsInstalled[] = "PagePerformance"
 PluginsInstalled[] = "CustomDimensions"
-PluginsInstalled[] = "CustomVariables"
-PluginsInstalled[] = "MyPlugin
-
+PluginsInstalled[] = "customvariables"
+PluginsInstalled[] = "MyPlugin"
 
 
 [Cache]
-backend = redis
+backend = chained
 
 [ChainedCache]
 backends[] = array
-backends[] = redis
+backends[] = file
 
 [RedisCache]
 host = "127.0.0.1" 
 port = 6379
 timeout = 0.0
-password = 
+password = 0
 database = 14
 
 [Development]
 enabled = 0
-
-[log]
-log_writers[] = file
