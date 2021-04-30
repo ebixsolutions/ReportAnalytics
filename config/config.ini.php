@@ -33,6 +33,9 @@ enabled = 0
 salt = "30a7d89d045265b2247e80a692a64721"
 trusted_hosts[] = "localhost"
 trusted_hosts[] = "example.com"
+trusted_hosts[] = "54.188.203.178:8001"
+trusted_hosts[] = "localhost:8001"
+
 
 [Plugins]
 Plugins[] = "CorePluginsAdmin"
