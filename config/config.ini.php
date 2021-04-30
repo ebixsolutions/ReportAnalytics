@@ -1,9 +1,9 @@
 ; <?php exit; ?> DO NOT REMOVE THIS LINE
 ; file automatically generated or modified by Matomo; you can manually override the default values in global.ini.php by redefining them in this file.
 [database]
-host = "127.0.0.1"
+host = "54.188.203.178"
 username = "root"
-password = "Passw0rd"
+password = "LPnmYXGEp5Tx"
 dbname = "tracking_tool_analytics"
 tables_prefix = "matomo_"
 charset = "utf8mb4"
