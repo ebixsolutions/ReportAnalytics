@@ -11,8 +11,23 @@ charset = "utf8mb4"
 [log]
 log_writers[] = "file"
 
+
+[Cache]
+backend = redis
+
+[ChainedCache]
+backends[] = array
+backends[] = redis
+
 [RedisCache]
-password = 0
+host = "127.0.0.1" 
+port = 6379
+timeout = 0.0
+password = ""
+database = 14
+
+[Development]
+enabled = 0
 
 [General]
 salt = "30a7d89d045265b2247e80a692a64721"
