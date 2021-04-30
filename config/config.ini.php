@@ -13,7 +13,7 @@ log_writers[] = "file"
 
 
 [Cache]
-backend = redis
+backend = file
 
 [ChainedCache]
 backends[] = array
