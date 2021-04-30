@@ -35,6 +35,7 @@ trusted_hosts[] = "localhost"
 trusted_hosts[] = "example.com"
 trusted_hosts[] = "54.188.203.178:8001"
 trusted_hosts[] = "localhost:8001"
+trusted_hosts[] = "54.188.203.178"
 
 
 [Plugins]
