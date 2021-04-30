@@ -30,6 +30,7 @@ database = 14
 enabled = 0
 
 [General]
+enable_trusted_host_check=0
 salt = "30a7d89d045265b2247e80a692a64721"
 trusted_hosts[] = "localhost"
 trusted_hosts[] = "example.com"
