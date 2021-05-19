@@ -13,7 +13,7 @@ log_writers[] = "file"
 
 
 [Cache]
-backend = file
+backend = chained
 
 [ChainedCache]
 backends[] = array
