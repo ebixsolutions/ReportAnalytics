@@ -4,7 +4,7 @@
 host = "54.188.203.178"
 username = "root"
 password = "LPnmYXGEp5Tx"
-dbname = "tracking_tool_analytics"
+dbname = "tracking_tool_analytics_v1"
 tables_prefix = "matomo_"
 charset = "utf8mb4"
 
