@@ -11,6 +11,9 @@ charset = "utf8mb4"
 [log]
 log_writers[] = "file"
 
+[Tracker]
+visit_standard_length = 1800
+
 
 [Cache]
 backend = chained
