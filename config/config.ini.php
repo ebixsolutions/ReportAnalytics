@@ -12,7 +12,7 @@ charset = "utf8mb4"
 log_writers[] = "file"
 
 [Tracker]
-visit_standard_length = 1800
+visit_standard_length = 300
 
 
 [Cache]
