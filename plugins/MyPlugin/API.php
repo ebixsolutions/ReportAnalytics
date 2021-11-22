@@ -53,6 +53,50 @@ class API extends \Piwik\Plugin\API
         $this->cache = $cache;
     }
 
+    
+    // Get Region List 
+    public function getRegionList($q=''){
+
+        if($q==''){
+            return [];
+        }
+        
+        $filename = getcwd().'/plugins/MyPlugin/region_data.json';
+        $data = file_get_contents($filename);
+
+        $data = json_decode($data, true);
+        $q='%'.$q.'%';
+        foreach ($data as $key => $country) {
+
+            $is_matched = false;
+            foreach ($country['regions'] as $key1 => $country_region) {
+
+                if($this->like_match($q, $country_region['name'])==true){
+
+                    $final_array[$key+$key1]['country_name']=$country['countryName'];
+
+                    $final_array[$key+$key1]['country_code']=$country['countryShortCode'];
+
+                    $final_array[$key+$key1]['region_name']=$country_region['name'];
+
+                    $final_array[$key+$key1]['region_code']=$country_region['shortCode'];
+                }
+            }
+        }
+
+        //print_r($final_array);
+
+        return $final_array;
+
+        return json_decode($final_array, true);
+    }
+
+    function like_match($pattern, $subject)
+    {
+        $pattern = str_replace('%', '.*', preg_quote($pattern, '/'));
+        return (bool) preg_match("/^{$pattern}$/i", $subject);
+    }
+
 
     // Add to Cart Not Checkout Count
     public function getCheckoutCount($idSite, $type='last_one_year', $date=false){
