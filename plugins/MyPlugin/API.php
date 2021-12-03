@@ -148,6 +148,96 @@ class API extends \Piwik\Plugin\API
         return $dataRows[0]['total_count'];
     }
 
+    // Get matomo action details 
+    public function getMatomoCampaignActionDetails($user_id, $user_name='', $idSite, $startDate, $endDate, $flat=false){
+
+        Piwik::checkUserHasViewAccess($idSite);
+
+        $default_from = date('Y-m-d');
+        $default_to = date('Y-m-d');
+
+        if($startDate!=''){
+            $default_from = date('Y-m-d', strtotime($startDate));
+        }
+
+        if($endDate!=''){
+            $default_to = date('Y-m-d', strtotime($endDate));
+        }
+
+        $user_query = '';
+        if($user_id!='' && $user_name!=''){
+            $user_query = 'AND ( matomo_log_visit.user_id='.$user_id. ' OR matomo_log_visit.user_id='.$user_name.')';
+        }
+        else if($user_id!=''){
+            $user_query = 'AND matomo_log_visit.user_id='.$user_id;
+        }
+        else{
+            $user_query = 'AND matomo_log_visit.user_id='.$user_name;
+        }
+
+        if($user_query==''){
+            return [];
+        }
+
+        $db1 = Db::get();
+        $db1->exec("SET SESSION group_concat_max_len = 1000000;");
+
+        $db = Db::get();
+        $table = 'matomo_log_link_visit_action';
+        $dateCondition = '';
+        $sql = "select group_concat(DISTINCT matomo_log_link_visit_action.custom_dimension_3) as campaign_id from %s JOIN matomo_log_visit ON matomo_log_visit.idvisit=matomo_log_link_visit_action.idvisit
+        WHERE matomo_log_link_visit_action.idSite=%s AND
+        matomo_log_link_visit_action.custom_dimension_3!='' AND
+        matomo_log_link_visit_action.server_time >= '%s' 
+        AND matomo_log_link_visit_action.server_time <= '%s'".$user_query;
+        $sql = $sql." LIMIT %s,%s";
+
+        $bind = array();
+        $sql = sprintf($sql, $table, $idSite, $default_from." 00:00:00", $default_to." 23:59:59", 0, 1);
+        $dataRows = $db->fetchAll($sql, $bind);
+
+        if(count($dataRows) > 0){
+           return  explode(',', $dataRows[0]['campaign_id']);
+        }
+        return [];
+    }
+
+    // Get Current Vistor Details 
+    public function getCurrentVistorDetails($user_id, $user_name='', $idSite, $flat = false, $doNotFetchActions = false){
+        Piwik::checkUserHasViewAccess($idSite);
+        $default_from = date('Y-m-d');
+        $default_to = date('Y-m-d');
+
+        $user_query = '';
+        if($user_id!='' && $user_name!=''){
+            $user_query = 'AND ( matomo_log_visit.user_id='.$user_id. ' OR matomo_log_visit.user_id='.$user_name.')';
+        }
+        else if($user_id!=''){
+            $user_query = 'AND matomo_log_visit.user_id='.$user_id;
+        }
+        else{
+            $user_query = 'AND matomo_log_visit.user_id='.$user_name;
+        }
+
+        if($user_query==''){
+            return [];
+        }
+
+        $db = Db::get();
+        $table = 'matomo_log_visit';
+        $dateCondition = '';
+        $sql = "select * from %s 
+        WHERE matomo_log_visit.idSite=%s AND
+        matomo_log_visit. visit_last_action_time >= '%s' 
+        AND matomo_log_visit.visit_last_action_time <= '%s'".$user_query;
+        $sql = $sql." LIMIT %s,%s"; 
+
+        $bind = array();
+        $sql = sprintf($sql, $table, $idSite, $default_from." 00:00:00", $default_to." 23:59:59", 0, 1);
+        $dataRows = $db->fetchAll($sql, $bind);
+        return $dataRows;
+    }
+
     // Get Vistor Details 
     public function getVistorDetails($idSite, $idVisit, $flat = false, $doNotFetchActions = false){
         Piwik::checkUserHasViewAccess($idSite);
