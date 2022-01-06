@@ -147,6 +147,15 @@ class API extends \Piwik\Plugin\API
         $dataRows = $db->fetchAll($sql, $bind);
         return $dataRows[0]['total_count'];
     }
+    public function label_Update($unique_action_id,$labels){
+        $db = Db::get();
+        $sql = "UPDATE `matomo_log_link_visit_action` SET `custom_dimension_6` = '".$labels."' WHERE `custom_dimension_14` =".$unique_action_id.";";
+        $db->query($sql);
+
+        return $sql;
+        // where custom_dimension_14 = unique_action_id
+        // update custom_dimension_6 = ['label1',label2]
+    }
 
     // Get matomo action details 
     public function getMatomoCampaignActionDetails($user_id, $user_name='', $idSite, $startDate, $endDate, $flat=false){

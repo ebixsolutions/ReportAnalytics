@@ -16,7 +16,7 @@ backend = chained
 
 [ChainedCache]
 backends[] = array
-backends[] = redis
+#backends[] = redis
 
 [RedisCache]
 host = "127.0.0.1" 
