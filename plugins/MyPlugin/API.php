@@ -74,7 +74,7 @@ class API extends \Piwik\Plugin\API
                 if($this->like_match($q, $country_region['name'])==true){
 
 			
-                    $final_array[$key+$key1]['key']=$country['key'];
+                    $final_array[$key+$key1]['key']=$country_region['key'];
 
                     $final_array[$key+$key1]['country_name']=$country['countryName'];
 
