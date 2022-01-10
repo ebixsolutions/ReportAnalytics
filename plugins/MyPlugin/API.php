@@ -526,5 +526,17 @@ class API extends \Piwik\Plugin\API
 
         return $dataTable;
     }
+	public function createDimension($site_id)
+    {
+
+		$db = Db::get();
+		$dimension = '[{"dimension":"url","pattern":""}]';			
+		$sql="INSERT INTO `matomo_custom_dimensions` (`idcustomdimension`, `idsite`, `name`, `index`, `scope`, `active`, `extractions`, `case_sensitive`) VALUES (1, '$site_id', 'visit_product_id', 1, 'action', 1,'$dimension', 1),(2, '$site_id', 'visit_varient_id', 2, 'action', 1, '$dimension', 1),(3, '$site_id', 'campaign_id', 3, 'action', 1, '$dimension', 1),(4, '$site_id', 'campaign_name', 4, 'action', 1, '$dimension', 1),(5, '$site_id', 'campaign_source', 5, 'action', 1, '$dimension',1),(6, '$site_id', 'customer_label', 6, 'action', 1, '$dimension',1),(7, '$site_id', 'product_id', 7, 'action', 1, '$dimension', 1),(8, '$site_id', 'coupon_id', 8, 'action', 1, '$dimension', 1),(9, '$site_id', 'product_name', 9, 'action', 1, '$dimension', 1),(10, '$site_id','coupon_name', 10, 'action', 1, '$dimension',1),(11, '$site_id', 'product_discount', 11, 'action', 1, '$dimension', 1),(12, '$site_id', 'rule_id', 12, 'action', 1, '$dimension', 1),(13, '$site_id', 'clicked_area', 13, 'action', 1, '$dimension', 1),(14, '$site_id', 'user_name', 1, 'visit', 1, '[]', 1),(15, '$site_id', 'user_email', 2, 'visit', 1, '[]', 1),(16, '$site_id', 'cart_product_id', 3, 'visit', 1, '[]', 1),(17, '$site_id', 'cart_varient_id', 4, 'visit', 1, '[]', 1),(18, '$site_id', 'cart_contains_1', 5, 'visit', 1, '[]', 1),(19, '$site_id', 'cart_contains_2', 6, 'visit', 1, '[]', 1),(20, '$site_id', 'cart_contains_3', 7, 'visit', 1, '[]', 1),(21, '$site_id', 'unique_action_id', 14, 'action', 1, '$dimension', 1)";
+		
+		$db->query($sql);
+		return true;
+		
+        
+    }
 }
 
