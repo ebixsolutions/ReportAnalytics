@@ -318,7 +318,7 @@ class API extends \Piwik\Plugin\API
         $db = Db::get();
         $table = 'matomo_log_link_visit_action';
         $dateCondition = '';
-        $sql = "SELECT matomo_log_link_visit_action.custom_dimension_1, matomo_log_link_visit_action.custom_dimension_2  from %s JOIN matomo_log_visit ON matomo_log_visit.idvisit=matomo_log_link_visit_action.idvisit
+        $sql = "SELECT matomo_log_link_visit_action.custom_dimension_1 as prod_id, matomo_log_link_visit_action.custom_dimension_2 as varient_id from %s JOIN matomo_log_visit ON matomo_log_visit.idvisit=matomo_log_link_visit_action.idvisit
         WHERE matomo_log_link_visit_action.idSite=%s AND
         matomo_log_link_visit_action.custom_dimension_1 IS NOT NULL 
         AND matomo_log_link_visit_action.custom_dimension_2 IS NOT NULL AND
@@ -331,7 +331,7 @@ class API extends \Piwik\Plugin\API
         $dataRows = $db->fetchAll($sql, $bind);
 
         if(count($dataRows) > 0){
-           return  explode(',', $dataRows[0]['campaign_id']);
+           return  $dataRows;
         }
         return [];
     }
