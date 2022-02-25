@@ -332,10 +332,17 @@ class API extends \Piwik\Plugin\API
         AND matomo_log_link_visit_action.custom_dimension_2 IS NOT NULL AND
         matomo_log_link_visit_action.server_time >= '%s' 
         AND matomo_log_link_visit_action.server_time <= '%s'".$user_query;
+
+
         // $sql = $sql." LIMIT %s,%s";
 
         $bind = array();
         $sql = sprintf($sql, $table, $idSite, $default_from." 00:00:00", $default_to." 23:59:59");
+
+
+        echo $sql;
+        
+
         $dataRows = $db->fetchAll($sql, $bind);
 
         if(count($dataRows) > 0){
