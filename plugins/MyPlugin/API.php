@@ -307,13 +307,13 @@ class API extends \Piwik\Plugin\API
 
         $user_query = '';
         if($user_id!='' && $user_name!=''){
-            $user_query = 'AND ( matomo_log_visit.user_id='.$user_id. ' OR matomo_log_visit.user_id='.$user_name.')';
+            $user_query = "AND ( matomo_log_visit.user_id='".$user_id."' OR matomo_log_visit.user_id='".$user_name."')";
         }
         else if($user_id!=''){
-            $user_query = 'AND matomo_log_visit.user_id='.$user_id;
+             $user_query = "AND matomo_log_visit.user_id='".$user_id."'";
         }
         else{
-            $user_query = 'AND matomo_log_visit.user_id='.$user_name;
+            $user_query = "AND matomo_log_visit.user_id='".$user_name."'";
         }
 
         if($user_query==''){
