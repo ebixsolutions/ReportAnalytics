@@ -250,10 +250,18 @@ class API extends \Piwik\Plugin\API
         return $dataRows;
     }
     // Get Current Vistor Details 
-    public function getAddCartProducts($user_id, $user_name='', $idSite, $flat = false, $doNotFetchActions = false){
+    public function getAddCartProducts($user_id, $user_name='', $idSite, $flat = false, $doNotFetchActions = false, $startDate='', $endDate=''){
         // Piwik::checkUserHasViewAccess($idSite);
         $default_from = date('Y-m-d');
         $default_to = date('Y-m-d');
+
+        if($startDate!=''){
+            $default_from = date('Y-m-d', strtotime($startDate));
+        }
+
+        if($endDate!=''){
+            $default_to = date('Y-m-d', strtotime($endDate));
+        }
 
         $user_query = '';
         if($user_id!='' && $user_name!=''){
@@ -284,7 +292,7 @@ class API extends \Piwik\Plugin\API
         $dataRows = $db->fetchAll($sql, $bind);
         return $dataRows;
     }
-    public function getvisitProducts($user_id, $user_name='', $idSite, $flat = false, $doNotFetchActions = false){
+    public function getvisitProducts($user_id, $user_name='', $idSite, $flat = false, $doNotFetchActions = false, $startDate='', $endDate=''){
         // Piwik::checkUserHasViewAccess($idSite);
         $default_from = date('Y-m-d');
         $default_to = date('Y-m-d');
