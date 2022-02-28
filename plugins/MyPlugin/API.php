@@ -337,10 +337,7 @@ class API extends \Piwik\Plugin\API
         // $sql = $sql." LIMIT %s,%s";
 
         $bind = array();
-        $sql = sprintf($sql, $table, $idSite, $default_from." 00:00:00", $default_to." 23:59:59");
-
-
-        echo $sql;
+        $sql = sprintf($sql, $table, $idSite, $default_from." 00:00:00", $default_to." 23:59:59"); 
         
 
         $dataRows = $db->fetchAll($sql, $bind);
