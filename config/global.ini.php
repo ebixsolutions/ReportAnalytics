@@ -823,7 +823,7 @@ debug_on_demand = 0
 ; This setting is described in this FAQ: https://matomo.org/faq/how-to/faq_175/
 ; Note: generally this should only be set to 1 in an intranet setting, where most users have the same configuration (browsers, OS)
 ; and the same IP. If left to 0 in this setting, all visitors will be counted as one single visitor.
-trust_visitors_cookies = 0
+trust_visitors_cookies = 1
 
 ; name of the cookie used to store the visitor information
 ; This is used only if use_third_party_id_cookie = 1
@@ -896,7 +896,7 @@ campaign_keyword_var_name = "pk_kwd,pk_keyword,piwik_kwd,mtm_kwd,mtm_keyword,mat
 ; if set to 1, actions that contain different campaign information from the visitor's ongoing visit will
 ; be treated as the start of a new visit. This will include situations when campaign information was absent before,
 ; but is present now.
-create_new_visit_when_campaign_changes = 1
+create_new_visit_when_campaign_changes = 0
 
 ; if set to 1, actions that contain different website referrer information from the visitor's ongoing visit
 ; will be treated as the start of a new visit. This will include situations when website referrer information was
