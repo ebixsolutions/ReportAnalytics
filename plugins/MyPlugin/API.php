@@ -133,6 +133,7 @@ class API extends \Piwik\Plugin\API
             $default_from = date('Y-m-d', strtotime('-3 months'));
             $default_to = date('Y-m-d');
         }
+        
 
         $db = Db::get();
         $table = 'matomo_log_visit';
